@@ -20,11 +20,16 @@ The repository is self-contained: the A1 dataset (`dataset_grouped/`, 421 crops)
 are included.
 
 ```bash
-cd A2
-python -m venv .venv && .venv\Scripts\activate        # Windows  (Linux/macOS: source .venv/bin/activate)
+git clone https://github.com/yukkennn/traffic-light-sign
+cd traffic-light-sign
+
+# create an environment (Windows; on Linux/macOS: source .venv/bin/activate)
+python -m venv .venv
+.venv\Scripts\activate
+
 pip install -r requirements.txt
-python get_weights.py                                  # YOLO11 + SAM 2.1 weights (~255 MB, once)
-python app.py                                          # open http://127.0.0.1:7860
+python get_weights.py      # YOLO11 + SAM 2.1 weights, ~165 MB, once
+python app.py              # opens http://127.0.0.1:7860
 ```
 On Windows you can also double-click `run_app_a2.bat`; on first start it installs missing libraries and downloads the weights. Switch the interface language with the EN / RU button in the top-right corner. Use `python app.py --share` to get a temporary public link (for a phone).
 Included models: `models/resnet18_condsim_s42.pt` (A2, final), `models/yolo11s_s42.pt` (A2 alternative) and `models/resnet18.pt` (A1 baseline). All three are stored in half precision to keep the files small; predictions are unchanged.
