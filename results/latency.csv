@@ -1,0 +1,4 @@
+model,params_M,latency_ms,crops_per_s
+ResNet18 (A1),11.18,57.82,17.29
+YOLO11s-cls (A2 alternative),5.45,32.89,30.4
+YOLO11n-cls,1.53,14.24,70.23

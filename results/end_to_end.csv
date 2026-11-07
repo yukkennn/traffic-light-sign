@@ -1,0 +1,5 @@
+detector,classifier,n_lights,detected,state_acc_on_detected,end_to_end_recall
+Faster R-CNN MobileNetV3 (A1) @ 960,ResNet18 (A1 baseline),45,37,1.0,0.8222
+YOLO11s @ 1280,ResNet18 (A1 baseline),45,37,0.973,0.8
+YOLO11s @ 1280,YOLO11s-cls (A2 alternative),45,37,0.7568,0.6222
+YOLO11s @ 1280,ResNet18 + CondSim (A2),45,37,1.0,0.8222

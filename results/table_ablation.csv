@@ -1,0 +1,13 @@
+backbone,metric,without,with_condsim,delta
+resnet18,clean macro-F1,0.909,0.922,0.013
+resnet18,"mean F1, 11 conditions",0.794,0.827,0.033
+resnet18,F1 held-out rain+fog,0.81,0.91,0.101
+resnet18,F1 A1 blur,0.714,0.791,0.076
+resnet18,F1 A1 noise,0.599,0.624,0.025
+resnet18,F1 glare,0.689,0.783,0.095
+yolo11s,clean macro-F1,0.895,0.841,-0.054
+yolo11s,"mean F1, 11 conditions",0.749,0.761,0.012
+yolo11s,F1 held-out rain+fog,0.824,0.82,-0.004
+yolo11s,F1 A1 blur,0.5,0.652,0.152
+yolo11s,F1 A1 noise,0.645,0.614,-0.03
+yolo11s,F1 glare,0.752,0.66,-0.091

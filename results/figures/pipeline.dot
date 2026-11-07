@@ -1,0 +1,17 @@
+digraph G {
+  rankdir=LR; bgcolor="white"; nodesep=0.35; ranksep=0.45;
+  node [shape=box, style="rounded,filled", fontname="DejaVu Sans", fontsize=11, color="#555555", fillcolor="#F3F4F6", penwidth=1.2];
+  edge [color="#555555", fontname="DejaVu Sans", fontsize=9, arrowsize=0.7];
+  img  [label="Street photo\n(upload / camera)", fillcolor="#FFFFFF"];
+  det  [label="YOLO11s detector\nCOCO 'traffic light'\n1280 px", fillcolor="#FDE7D3", color="#DD8452"];
+  crop [label="Crop + 10 % margin\n224×224"];
+  cls  [label="YOLO11s-cls\nC3k2 + C2PSA backbone\nnew 3-class head", fillcolor="#FDE7D3", color="#DD8452"];
+  out  [label="State: red / yellow / green\n+ confidence, colour check", fillcolor="#FFFFFF"];
+  cam  [label="Grad-CAM on C2PSA\n(heat-map)", fillcolor="#E3ECF8", color="#4C72B0"];
+  sam  [label="SAM 2.1-t\nprompt: box + lamp point\n→ housing & lamp masks", fillcolor="#E3ECF8", color="#4C72B0"];
+  cs   [label="CondSim (training only)\nnight · glare · motion\nnoise+JPEG · low-res\n(rain, fog held out)", fillcolor="#E8F4EA", color="#55A868", shape=note];
+  img -> det -> crop -> cls -> out;
+  cls -> cam [style=dashed]; det -> sam [style=dashed, label="box"];
+  cs -> cls [style=dotted, label="augment"];
+  {rank=same; cls; cs}
+}
