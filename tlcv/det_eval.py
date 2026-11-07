@@ -1,6 +1,6 @@
 import json, time
 import numpy as np, pandas as pd, torch
-from tlcv.common import ROOT, DATA
+from tlcv.common import ROOT, PHOTOS
 from tlcv.detectors import FasterRCNN, YOLO11, load_image
 
 torch.set_num_threads(2)
@@ -40,7 +40,7 @@ def ap_from(scored, n_gt):
 
 
 def evaluate(detector, gt, thr=0.30, warm=2):
-    imgs = {k: load_image(DATA / "images" / "full" / k) for k in gt}
+    imgs = {k: load_image(PHOTOS / k) for k in gt}
     first = next(iter(imgs.values()))
     for _ in range(warm): detector(first)
     scored, ts, per_img, n_gt = [], [], {}, 0

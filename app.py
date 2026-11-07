@@ -5,13 +5,13 @@ import gradio as gr
 import pandas as pd
 from PIL import Image, ImageOps
 
-from tlcv.common import CONDITIONS, HELD_OUT, CLASSES, DATA, load_split
+from tlcv.common import CONDITIONS, HELD_OUT, CLASSES, PHOTOS, load_split
 from tlcv.pipeline import CLASSIFIERS, DETECTORS, Engine, draw, environment, heat_overlay, mask_overlay, watermark
 
 ROOT = Path(__file__).resolve().parent
 E = Engine()
 DET_KEYS, CLS_KEYS = list(DETECTORS), list(CLASSIFIERS)
-EXAMPLES = sorted(str(p) for p in (DATA / "images" / "full").glob("*.jpg"))
+EXAMPLES = sorted(str(p) for p in PHOTOS.glob("*.jpg"))
 EX_PICK = [EXAMPLES[i] for i in (0, 4, 13, 21, 31) if i < len(EXAMPLES)]
 LAT = {"detect": [], "classify": [], "explain": []}
 MODEL_SHORT = {CLS_KEYS[0]: "A2 · ResNet18 + CondSim", CLS_KEYS[1]: "A1 · ResNet18", CLS_KEYS[2]: "YOLO11s-cls"}
@@ -182,7 +182,8 @@ def build(lang):
             with gr.Column(scale=5, min_width=320):
                 inp = gr.Image(type="pil", sources=["upload", "webcam", "clipboard"], label=L("Photo", "Фото"), height=380)
                 btn = gr.Button(L("Find traffic lights", "Найти светофоры"), variant="primary", elem_classes="run")
-                gr.Examples(EX_PICK, inp, label=L("Or try one of our photos", "Или возьмите одно из наших фото"))
+                if EX_PICK:
+                    gr.Examples(EX_PICK, inp, label=L("Or try one of our photos", "Или возьмите одно из наших фото"))
                 with gr.Accordion(L("Settings", "Настройки"), open=False):
                     det_key = gr.Dropdown(DET_KEYS, value=DET_KEYS[0], label=L("Detector", "Детектор"))
                     cls_key = gr.Dropdown(CLS_KEYS, value=CLS_KEYS[0], label=L("Signal classifier", "Классификатор сигнала"),

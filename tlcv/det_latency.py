@@ -1,10 +1,10 @@
 import time
 import numpy as np, pandas as pd, torch
-from tlcv.common import ROOT, DATA
+from tlcv.common import ROOT, PHOTOS
 from tlcv.detectors import FasterRCNN, YOLO11, load_image
 
 torch.set_num_threads(max(1, torch.get_num_threads()))
-imgs = [load_image(p) for p in sorted((DATA / "images" / "full").glob("*.jpg"))[:5]]
+imgs = [load_image(p) for p in sorted(PHOTOS.glob("*.jpg"))[:5]]
 csv = ROOT / "results" / "detector_comparison.csv"; df = pd.read_csv(csv)
 for D, key in [(FasterRCNN(480, 800), "Faster R-CNN MobileNetV3 (A1) @ 480"),
                (FasterRCNN(960, 1600), "Faster R-CNN MobileNetV3 (A1) @ 960"),

@@ -1,6 +1,6 @@
 import json
 import pandas as pd, torch
-from tlcv.common import ROOT, DATA
+from tlcv.common import ROOT, PHOTOS
 from tlcv.det_eval import iou
 from tlcv.detectors import load_image
 from tlcv.pipeline import Engine, pad_box, CLASSIFIERS
@@ -17,7 +17,7 @@ rows = []
 for dk, ck in pairs:
     n = solved = matched = correct = 0
     for k, g in gt.items():
-        im = load_image(DATA / "images" / "full" / k); W, H = im.size
+        im = load_image(PHOTOS / k); W, H = im.size
         D = [d for d in dets[dk][k] if d[4] >= 0.30]
         used = set()
         for light in g["lights"]:

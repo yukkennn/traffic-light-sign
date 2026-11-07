@@ -16,8 +16,8 @@ All numbers in `results/` were produced by the code in this repository (CPU only
 
 ## Quick start
 
-Put this folder inside the A1 project folder `CVAS1` or next to it. The code then finds the A1 data
-(`dataset_grouped/`, `images/full/` and `models/resnet18.pt`) in `CVAS1` automatically.
+The repository is self-contained: the A1 dataset (`dataset_grouped/`, 421 crops) and the A1 model (`models/resnet18.pt`)
+are included.
 
 ```bash
 cd A2
@@ -27,7 +27,7 @@ python get_weights.py                                  # YOLO11 + SAM 2.1 weight
 python app.py                                          # open http://127.0.0.1:7860
 ```
 On Windows you can also double-click `run_app_a2.bat`; on first start it installs missing libraries and downloads the weights. Switch the interface language with the EN / RU button in the top-right corner. Use `python app.py --share` to get a temporary public link (for a phone).
-The trained A2 classifiers are included: `models/resnet18_condsim_s42.pt` (final) and `models/yolo11s_s42.pt` (alternative). The A1 weights are read from `../models/resnet18.pt`.
+Included models: `models/resnet18_condsim_s42.pt` (A2, final), `models/yolo11s_s42.pt` (A2 alternative) and `models/resnet18.pt` (A1 baseline). All three are stored in half precision to keep the files small; predictions are unchanged.
 
 ## Web app
 * **Recognise**: add a photo (upload, webcam / phone camera, or an example) and press *Find traffic lights*. Each light gets a card
@@ -55,8 +55,11 @@ python -m tlcv.summarize     # tables + figures -> results/
 * Split: `results/split_a1.csv` is the exact A1 split (258 train / 86 val / 77 test, 10 groups). No group appears in two subsets.
 * Training recipe (same as A1): class-weighted CE with label smoothing 0.05, AdamW (wd 1e-4), cosine LR, head-only 5 epochs at 1e-3,
   then full fine-tune ≤20 epochs at 1e-4, early stopping on validation macro-F1.
-* `results/scene_gt.json`: boxes and states for the 45 lit traffic lights in `images/full/`. Unlit, back-facing and pedestrian lights are
+* `results/scene_gt.json`: boxes and states for the 45 lit traffic lights in the author's 33 street photos. Unlit, back-facing and pedestrian lights are
   marked *ignore*. These boxes were checked by eye from the union of detector proposals, so a light that every detector missed is not in the set.
+* **The 33 street photos are not published** (privacy: cars, plates and people). Their results are saved in `results/`
+  (`detector_comparison.csv`, `end_to_end.csv`, `scene_dets.json`). To rerun `det_eval`, `det_latency` and `e2e_eval`, put your own photos
+  in `images/full/` (the ground truth then has to be redone). Everything else runs from this repository alone.
 
 ## Repository layout
 ```
@@ -67,7 +70,8 @@ tlcv/detectors.py      Faster R-CNN (A1) and YOLO11 wrappers
 tlcv/pipeline.py       detect -> crop -> classify -> Grad-CAM / SAM 2 explanation
 tlcv/train_cls.py      one classifier experiment (writes results/runs/*.json)
 tlcv/det_eval.py, det_latency.py, e2e_eval.py, xai_eval.py, bench.py, summarize.py
-models/                A2 classifier weights (the A1 ResNet18 is read from CVAS1/models)
+dataset_grouped/       A1 dataset: 421 crops (red / yellow / green), 10 groups per class
+models/                A1 baseline + A2 classifier weights
 results/               metrics (CSV/JSON), figures/, summary.md
 weights/               YOLO11 + SAM 2.1 weights, downloaded by get_weights.py
 ```

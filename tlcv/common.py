@@ -12,7 +12,9 @@ from sklearn.metrics import accuracy_score, f1_score, precision_recall_fscore_su
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 ROOT = Path(__file__).resolve().parents[1]
-DATA = next((d for d in [ROOT, ROOT.parent, ROOT.parent / "CVAS1"] if (d / "dataset_grouped").exists()), ROOT)
+_ROOTS = [ROOT, ROOT.parent, ROOT.parent / "CVAS1"]
+DATA = next((d for d in _ROOTS if (d / "dataset_grouped").exists()), ROOT)
+PHOTOS = next((d / "images" / "full" for d in _ROOTS if (d / "images" / "full").exists()), ROOT / "images" / "full")
 CLASSES = ["red", "yellow", "green"]
 MEAN, STD = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225]
 SEED = 42
